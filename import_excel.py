@@ -22,6 +22,8 @@ def import_excel_to_numpy_and_insert():
         auteur = str(row[1]).strip()        
         edition = str(row[2]).strip() if len(row) > 2 else None  # dépend de l'ordre dans Excel
         remarque = str(row[3]).strip() if len(row) > 3 else None
+        genre = str(row[4]).strip()
+        resume = str(row[5]).strip()
 
         # Force status = 'disponible'
         statut = "disponible"
@@ -30,8 +32,8 @@ def import_excel_to_numpy_and_insert():
         cursor.execute("SELECT COUNT(*) FROM books WHERE title = ? AND author = ?", (titre, auteur))
         if cursor.fetchone()[0] == 0:
             cursor.execute(
-                 "INSERT INTO books (title, author, status, edition, remarque) VALUES (?, ?, ?, ?, ?)",
-                (titre, auteur, statut, edition, remarque)
+                 "INSERT INTO books (title, author, status, edition, remarque, genre, resume) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (titre, auteur, statut, edition, remarque, genre, resume)
             )
 
             print(f"> Livre ajouté : {titre} - {auteur}")

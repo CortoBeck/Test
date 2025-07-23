@@ -30,9 +30,53 @@ def genres():
 
 @app.route('/genres/<genre_name>')
 def genre_books(genre_name):
-    # Pour l'instant : message temporaire
+    # Mise en forme pour affichage
     display_name = genre_name.replace('_', ' ').title()
-    return render_template('genre_books.html', genre=display_name, books=[])
+
+    # Récupère tous les livres
+    books = get_all_books()
+
+    # Ne garde que ceux du bon genre (en ignorant la casse)
+    filtered_books = [
+        book for book in books
+        if book['genre'].strip().lower() == display_name.lower()
+    ]
+
+    return render_template('genre_books.html', genre=display_name, books=filtered_books)
+
+
+@app.route('/request/<int:book_id>', methods=['GET', 'POST'])
+def request_book(book_id):
+    books = get_all_books()
+    book = next((b for b in books if b['id'] == book_id), None)
+
+    if not book:
+        flash("Livre introuvable.", "danger")
+        return redirect(url_for('home'))
+
+    if book['status'] != 'disponible':
+        flash("Ce livre est déjà emprunté.", "warning")
+        return redirect(url_for('home'))
+
+    if request.method == 'POST':
+        nom = request.form.get('nom', '').strip()
+        prenom = request.form.get('prenom', '').strip()
+
+        if not nom or not prenom:
+            flash("Merci de remplir tous les champs.", "danger")
+            return redirect(url_for('request_book', book_id=book_id))
+
+        # Change le statut du livre
+        update_status(book_id)
+
+        # Stocke la demande (à améliorer si besoin)
+        with open("notifications_admin.txt", "a", encoding="utf-8") as f:
+            f.write(f"[DEMANDE] {prenom} {nom} souhaite emprunter '{book['title']}'\n")
+
+        flash("Demande envoyée. Merci !", "success")
+        return redirect(url_for('home'))
+
+    return render_template('request_book.html', book=book)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -61,20 +105,32 @@ def admin():
     if not session.get('logged_in'):
         flash("Connecte-toi d'abord !", "warning")
         return redirect(url_for('login'))
+
     books = get_all_books()
+
+    # Lecture des notifications d'emprunt
+    try:
+        with open("notifications_admin.txt", "r", encoding="utf-8") as f:
+            notifications = f.readlines()
+    except FileNotFoundError:
+        notifications = []
+
     if request.method == 'POST':
         title = request.form.get('title', '').strip()
         author = request.form.get('author', '').strip()
-        edition = request.form.get('edition', '').strip()    # <-- nouveau
-        remarque = request.form.get('remarque', '').strip()  # <-- nouveau
+        edition = request.form.get('edition', '').strip()
+        remarque = request.form.get('remarque', '').strip()
+        genre = request.form.get('genre', '').strip()
+        resume = request.form.get('resume', '').strip()
 
-        if title and author:
-            add_book(title, author, edition, remarque)       # <-- passe les nouveaux champs
+        if title:
+            add_book(title, author, edition, remarque, genre, resume)
             flash(f"Livre '{title}' ajouté !", "success")
             return redirect(url_for('admin'))
         else:
             flash("Le titre et l'auteur sont obligatoires.", "danger")
-    return render_template('admin.html', books=books)
+
+    return render_template('admin.html', books=books, notifications=notifications)
 
 
 @app.route('/update_status/<int:book_id>')

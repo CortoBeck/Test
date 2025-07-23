@@ -1,0 +1,4 @@
+Flask>=2.2
+gunicorn
+openpyxl             # si tu importes des livres depuis un fichier Excel
+python-dotenv        # si tu utilises un fichier .env (optionnel mais fréquent)

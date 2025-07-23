@@ -17,7 +17,9 @@ def init_db():
             author TEXT NOT NULL,
             status TEXT DEFAULT 'disponible',
             edition TEXT,
-            remarque TEXT
+            remarque TEXT,
+            genre TEXT,
+            resume TEXT
         )
     ''')
     conn.commit()
@@ -32,15 +34,16 @@ def get_all_books():
     conn.close()
     return rows
 
-def add_book(title, author, edition=None, remarque=None):
+def add_book(title, author, edition=None, remarque=None, genre=None, resume=None):
     conn = get_connection()
     c = conn.cursor()
     c.execute(
-        "INSERT INTO books (title, author, edition, remarque) VALUES (?, ?, ?, ?)",
-        (title, author, edition, remarque)
+        "INSERT INTO books (title, author, edition, remarque, genre, resume) VALUES (?, ?, ?, ?, ?, ?)",
+        (title, author, edition, remarque, genre, resume)
     )
     conn.commit()
     conn.close()
+
 
 
 def update_status(book_id):

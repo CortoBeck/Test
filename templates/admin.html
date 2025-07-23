@@ -15,7 +15,7 @@
         <label for="author" class="form-label">Auteur</label>
         <input type="text" class="form-control" id="author" name="author" required>
     </div>
-    <div class="mb-3"> <!-- <-- ici ajouté < -->
+    <div class="mb-3">
         <label for="edition" class="form-label">Édition</label>
         <input type="text" class="form-control" id="edition" name="edition">
     </div>
@@ -23,11 +23,29 @@
         <label for="remarque" class="form-label">Remarque</label>
         <input type="text" class="form-control" id="remarque" name="remarque">
     </div>
+    <div class="mb-3">
+        <label for="genre" class="form-label">Genre</label>
+        <input type="text" class="form-control" id="genre" name="genre">
+    </div>
+    <div class="mb-3">
+        <label for="resume" class="form-label">Résumé</label>
+        <textarea class="form-control" id="resume" name="resume" rows="3"></textarea>
+    </div>
     <button type="submit" class="btn btn-primary">Ajouter</button>
 </form>
 
-
 <hr/>
+
+<h2>Demandes d'emprunt</h2>
+{% if notifications %}
+<ul class="list-group mb-4">
+    {% for note in notifications %}
+        <li class="list-group-item">{{ note }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p class="text-muted">Aucune demande pour le moment.</p>
+{% endif %}
 
 <h2>Liste des livres</h2>
 <table class="table table-bordered table-hover">
@@ -36,7 +54,7 @@
             <th>Titre</th>
             <th>Auteur</th>
             <th>Statut</th>
-            <th>Édition</th>      
+            <th>Édition</th>
             <th>Remarque</th>
             <th>Action</th>
         </tr>
@@ -53,9 +71,8 @@
                     <span class="badge bg-danger">Emprunté</span>
                 {% endif %}
             </td>
-            
-            <td>{{ book['edition'] or '' }}</td>    <!-- ajout -->
-            <td>{{ book['remarque'] or '' }}</td>   <!-- ajout -->
+            <td>{{ book['edition'] or '' }}</td>
+            <td>{{ book['remarque'] or '' }}</td>
             <td>
                 <a href="{{ url_for('update_book_status', book_id=book['id']) }}" class="btn btn-sm btn-outline-primary">
                     Changer statut

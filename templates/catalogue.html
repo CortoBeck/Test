@@ -5,7 +5,7 @@
 {% block content %}
 <h1>Catalogue d'emprunt</h1>
 
-<form method="GET" action="{{ url_for('home') }}">
+<form method="GET" action="{{ url_for('home') }}" class="mb-4">
     <div class="input-group">
         <input type="text" class="form-control" name="q" placeholder="Rechercher un titre ou un auteur..." value="{{ query }}">
         <button class="btn btn-outline-secondary" type="submit">Rechercher</button>
@@ -21,6 +21,7 @@
             <th>Statut</th>
             <th>Édition</th>
             <th>Remarque</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -37,6 +38,13 @@
             </td>
             <td>{{ book['edition'] or '' }}</td>
             <td>{{ book['remarque'] or '' }}</td>
+            <td>
+                {% if book['status'] == 'disponible' %}
+                    <a href="{{ url_for('request_book', book_id=book['id']) }}" class="btn btn-sm btn-outline-primary">Demander</a>
+                {% else %}
+                    <span class="text-muted">Non disponible</span>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>
