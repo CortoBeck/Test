@@ -17,13 +17,13 @@ header {
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    justify-content: center; /* centre le contenu */
+    justify-content: center;
     position: relative;
 }
 
 .left-placeholder,
 .admin-links {
-    width: 150px; /* largeur fixe pour équilibrer les côtés */
+    width: 150px;
 }
 
 .header-container h1 {
@@ -147,4 +147,76 @@ th, td {
 .bg-danger {
     background-color: #f8d7da;
     color: #721c24;
+}
+
+/* Ancienne table de genres (désactivée ou supprimable)
+.genre-table {
+    width: 100%;
+    max-width: 800px;
+    margin: 2rem auto;
+    border-collapse: separate;
+    border-spacing: 1rem;
+    text-align: center;
+}
+
+.genre-table td {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.genre-table td a {
+    display: block;
+    text-decoration: none;
+    color: #990000;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.genre-table td:hover {
+    background-color: #ffe5e5;
+}
+*/
+
+/* Nouvelle grille des genres (3x4) */
+.genres-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0;
+}
+
+.genre-box {
+    background-color: #990000;
+    color: white;
+    text-align: center;
+    padding: 1.2rem;
+    font-weight: bold;
+    border-radius: 10px;
+    text-decoration: none;
+    display: block;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.genre-box:hover {
+    background-color: #b30000;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .genres-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .genres-grid {
+        grid-template-columns: 1fr;
+    }
 }

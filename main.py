@@ -21,8 +21,19 @@ def home():
 
 @app.route('/genres')
 def genres():
-    # Page vide pour l'instant
-    return render_template('genres.html')
+    genre_list = [
+        "Roman", "Poésie", "Théâtre", "Science-fiction",
+        "Essai", "Biographie", "Histoire", "Philosophie",
+        "Fantastique", "Policier", "Manuels scolaires", "Magazines"
+    ]
+    return render_template('genres.html', genres=genre_list)
+
+@app.route('/genres/<genre_name>')
+def genre_books(genre_name):
+    # Pour l'instant : message temporaire
+    display_name = genre_name.replace('_', ' ').title()
+    return render_template('genre_books.html', genre=display_name, books=[])
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

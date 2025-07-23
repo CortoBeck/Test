@@ -26,8 +26,8 @@
 
     <!-- Barre de navigation -->
     <nav class="nav-bar">
-        <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Catalogue</a>
-        <a href="{{ url_for('genres') }}" class="{% if request.endpoint == 'genres' %}active{% endif %}">Genres</a>
+        <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Catalogue d'emprunt</a>
+        <a href="{{ url_for('genres') }}" class="{% if request.endpoint == 'genres' %}active{% endif %}">Genres et résumés</a>
     </nav>
 
     <!-- Messages flash -->

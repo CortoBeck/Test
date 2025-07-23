@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Demandes d'emprunt en attente</h1>
+
+{% if demandes %}
+<table>
+    <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Emprunteur</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for livre in demandes %}
+        <tr>
+            <td>{{ livre.titre }}</td>
+            <td>{{ livre.emprunteur }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('valider_demande', livre_id=livre.id) }}" style="display:inline-block;">
+                    <button type="submit">Valider</button>
+                </form>
+                <form method="POST" action="{{ url_for('refuser_demande', livre_id=livre.id) }}" style="display:inline-block;">
+                    <button type="submit" style="background-color: gray;">Refuser</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Aucune demande en attente.</p>
+{% endif %}
+
+{% endblock %}

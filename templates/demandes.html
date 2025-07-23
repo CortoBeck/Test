@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head><title>Demandes d'emprunt</title></head>
+<body>
+<h1>Demandes en attente</h1>
+
+<p><a href="{{ url_for('catalogue') }}">Retour au catalogue</a></p>
+
+<table border="1" cellpadding="5">
+<thead>
+<tr><th>Titre</th><th>Emprunteur</th><th>Actions</th></tr>
+</thead>
+<tbody>
+{% for livre in demandes %}
+<tr>
+  <td>{{ livre.titre }}</td>
+  <td>{{ livre.emprunteur }}</td>
+  <td><a href="{{ url_for('valider', livre_id=livre.id) }}">Valider</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul>
+      {% for msg in messages %}
+        <li>{{ msg }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+</body>
+</html>

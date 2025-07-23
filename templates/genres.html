@@ -3,6 +3,13 @@
 {% block title %}Genres - Bibliothèque{% endblock %}
 
 {% block content %}
-<h1>Genres</h1>
-<p>Cette page sera bientôt disponible.</p>
+<h1>Choisir un genre</h1>
+
+<div class="genres-grid">
+    {% for genre in genres %}
+        <a href="{{ url_for('genre_books', genre_name=genre|lower|replace(' ', '_')) }}" class="genre-box">
+            {{ genre }}
+        </a>
+    {% endfor %}
+</div>
 {% endblock %}
