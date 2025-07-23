@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin - Bibliothèque{% endblock %}
+
+{% block content %}
+<h1>Administration</h1>
+
+<h2>Ajouter un livre</h2>
+<form method="POST" action="{{ url_for('admin') }}">
+    <div class="mb-3">
+        <label for="title" class="form-label">Titre</label>
+        <input type="text" class="form-control" id="title" name="title" required autofocus>
+    </div>
+    <div class="mb-3">
+        <label for="author" class="form-label">Auteur</label>
+        <input type="text" class="form-control" id="author" name="author" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+</form>
+
+<hr/>
+
+<h2>Liste des livres</h2>
+<table class="table table-bordered table-hover">
+    <thead class="table-secondary">
+        <tr>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Statut</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book['title'] }}</td>
+            <td>{{ book['author'] }}</td>
+            <td>
+                {% if book['status'] == 'disponible' %}
+                    <span class="badge bg-success">Disponible</span>
+                {% else %}
+                    <span class="badge bg-danger">Emprunté</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{{ url_for('update_book_status', book_id=book['id']) }}" class="btn btn-sm btn-outline-primary">
+                    Changer statut
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
