@@ -15,8 +15,17 @@
         <label for="author" class="form-label">Auteur</label>
         <input type="text" class="form-control" id="author" name="author" required>
     </div>
+    <div class="mb-3"> <!-- <-- ici ajouté < -->
+        <label for="edition" class="form-label">Édition</label>
+        <input type="text" class="form-control" id="edition" name="edition">
+    </div>
+    <div class="mb-3">
+        <label for="remarque" class="form-label">Remarque</label>
+        <input type="text" class="form-control" id="remarque" name="remarque">
+    </div>
     <button type="submit" class="btn btn-primary">Ajouter</button>
 </form>
+
 
 <hr/>
 
@@ -27,6 +36,8 @@
             <th>Titre</th>
             <th>Auteur</th>
             <th>Statut</th>
+            <th>Édition</th>      
+            <th>Remarque</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -42,6 +53,9 @@
                     <span class="badge bg-danger">Emprunté</span>
                 {% endif %}
             </td>
+            
+            <td>{{ book['edition'] or '' }}</td>    <!-- ajout -->
+            <td>{{ book['remarque'] or '' }}</td>   <!-- ajout -->
             <td>
                 <a href="{{ url_for('update_book_status', book_id=book['id']) }}" class="btn btn-sm btn-outline-primary">
                     Changer statut

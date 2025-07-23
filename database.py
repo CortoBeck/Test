@@ -15,11 +15,14 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             author TEXT NOT NULL,
-            status TEXT DEFAULT 'disponible'
+            status TEXT DEFAULT 'disponible',
+            edition TEXT,
+            remarque TEXT
         )
     ''')
     conn.commit()
     conn.close()
+
 
 def get_all_books():
     conn = get_connection()
@@ -29,12 +32,16 @@ def get_all_books():
     conn.close()
     return rows
 
-def add_book(title, author):
+def add_book(title, author, edition=None, remarque=None):
     conn = get_connection()
     c = conn.cursor()
-    c.execute("INSERT INTO books (title, author) VALUES (?, ?)", (title, author))
+    c.execute(
+        "INSERT INTO books (title, author, edition, remarque) VALUES (?, ?, ?, ?)",
+        (title, author, edition, remarque)
+    )
     conn.commit()
     conn.close()
+
 
 def update_status(book_id):
     conn = get_connection()

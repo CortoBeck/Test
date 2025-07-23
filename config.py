@@ -1,6 +1,6 @@
 # config.py
 
-DB_NAME = "bibliotheque.db"
+DB_NAME = "books.db"
 EXCEL_PATH = "data/livres.xlsx"
 
 

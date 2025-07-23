@@ -11,8 +11,13 @@ init_db()
 
 @app.route('/')
 def home():
+    query = request.args.get('q', '').strip().lower()
     books = get_all_books()
-    return render_template('catalogue.html', books=books)
+
+    if query:
+        books = [book for book in books if query in book['title'].lower() or query in book['author'].lower()]
+
+    return render_template('catalogue.html', books=books, query=query)
 
 @app.route('/genres')
 def genres():
@@ -47,16 +52,19 @@ def admin():
         return redirect(url_for('login'))
     books = get_all_books()
     if request.method == 'POST':
-        # Exemple simple d'ajout de livre via admin
         title = request.form.get('title', '').strip()
         author = request.form.get('author', '').strip()
+        edition = request.form.get('edition', '').strip()    # <-- nouveau
+        remarque = request.form.get('remarque', '').strip()  # <-- nouveau
+
         if title and author:
-            add_book(title, author)
+            add_book(title, author, edition, remarque)       # <-- passe les nouveaux champs
             flash(f"Livre '{title}' ajouté !", "success")
             return redirect(url_for('admin'))
         else:
             flash("Le titre et l'auteur sont obligatoires.", "danger")
     return render_template('admin.html', books=books)
+
 
 @app.route('/update_status/<int:book_id>')
 def update_book_status(book_id):
@@ -68,4 +76,8 @@ def update_book_status(book_id):
     return redirect(url_for('admin'))
 
 if __name__ == '__main__':
+    from import_excel import import_excel_to_numpy_and_insert
+    import_excel_to_numpy_and_insert()
     app.run(debug=True)
+
+
