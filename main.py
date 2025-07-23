@@ -1,9 +1,10 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from database import init_db, get_all_books, add_book, update_status
 from config import ADMIN_USERNAME, ADMIN_PASSWORD
 
 app = Flask(__name__)
-app.secret_key = "ta_clef_secrete_123"  # Change pour une vraie clé secrète en prod
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "ta_clef_secrete_123")  # valeur par défaut pour dev
 
 init_db()
 
@@ -146,5 +147,3 @@ if __name__ == '__main__':
     from import_excel import import_excel_to_numpy_and_insert
     import_excel_to_numpy_and_insert()
     app.run(debug=True)
-
-
