@@ -75,13 +75,12 @@
             <td>{{ book['edition'] or '' }}</td>
             <td>{{ book['remarque'] or '' }}</td>
             <td>
-                <a href="{{ url_for('update_book_status', book_id=book['id']) }}"
-                    class="btn btn-sm btn-outline-primary">
+                <a href="{{ url_for('update_book_status', book_id=book['id']) }}" class="my-btn statut-change">
                     Changer statut
                 </a>
             </td>
             <td>
-                <a href="{{ url_for('edit_book',book_id=book['id'])}}" class="btn btn-sm btn-outline-secondary">
+                <a href="{{ url_for('edit_book',book_id=book['id'])}}" class="my-btn edit">
                     Modifier
                 </a>
 

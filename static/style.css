@@ -71,12 +71,15 @@ header {
 .alert.success {
     color: green;
 }
+
 .alert.danger {
     color: red;
 }
+
 .alert.warning {
     color: orange;
 }
+
 .alert.info {
     color: blue;
 }
@@ -121,13 +124,55 @@ form .input-group button:hover {
     background-color: #b30000;
 }
 
+
+.my-btn {
+    display: inline-block;
+    background-color: #3498db;
+    /* bleu */
+    color: white;
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: sans-serif;
+    transition: background-color 0.2s;
+}
+
+.my-btn:hover {
+    background-color: #2980b9;
+    /* bleu foncé au survol */
+    cursor: pointer;
+}
+
+.statut-change {
+    background-color: #95d2f8;
+    /* rouge */
+}
+
+.statut-change:hover {
+    background-color: #77c5df;
+}
+
+.edit {
+    background-color: #f89494;
+    /* rouge */
+}
+
+.edit:hover {
+    background-color: #ee7777;
+}
+
+
+
 table {
     width: 100%;
     border-collapse: collapse;
     margin: auto;
 }
 
-th, td {
+th,
+td {
     border: 1px solid #ccc;
     padding: 0.6rem;
     text-align: left;

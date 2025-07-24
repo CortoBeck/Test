@@ -1,43 +1,47 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Bibliothèque BDA{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
     <!-- Bandeau rouge avec titre centré et liens admin à droite -->
-<header>
-    <div class="header-container">
-        <div class="left-placeholder"></div>  <!-- <-- équilibre la place à gauche -->
-        <h1>Bibliothèque BDA</h1>
-        <div class="admin-links">
-            {% if session.get('logged_in') %}
+    <header>
+        <div class="header-container">
+            <div class="left-placeholder"></div> <!-- <-- équilibre la place à gauche -->
+            <h1>Bibliothèque BDA</h1>
+            <div class="admin-links">
+                {% if session.get('logged_in') %}
                 <a href="{{ url_for('admin') }}">Admin</a> |
                 <a href="{{ url_for('logout') }}">Déconnexion</a>
-            {% else %}
+                {% else %}
                 <a href="{{ url_for('login') }}">Connexion</a>
-            {% endif %}
+                {% endif %}
+            </div>
         </div>
-    </div>
-</header>
+    </header>
 
 
     <!-- Barre de navigation -->
     <nav class="nav-bar">
-        <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Catalogue d'emprunt</a>
-        <a href="{{ url_for('genres') }}" class="{% if request.endpoint == 'genres' %}active{% endif %}">Genres et résumés</a>
+        <a href="{{ url_for('home') }}" class="{% if request.endpoint == 'home' %}active{% endif %}">Catalogue
+            d'emprunt</a>
+        <a href="{{ url_for('genres') }}" class="{% if request.endpoint == 'genres' %}active{% endif %}">Genres et
+            résumés</a>
     </nav>
 
     <!-- Messages flash -->
     <div class="flash-message">
         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert {{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert {{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
         {% endwith %}
     </div>
 
@@ -47,4 +51,5 @@
     </main>
 
 </body>
+
 </html>
