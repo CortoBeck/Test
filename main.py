@@ -167,3 +167,34 @@ if __name__ == "__main__":
 
     import_excel_to_numpy_and_insert()
     app.run(debug=True)
+
+
+@app.route("/edit/<int:book_id>", methods=["GET", "POST"])
+def edit_book(book_id):
+    if not session.get("logged_in"):
+        flash("Connecte-toi d'abord !", "warning")
+        return redirect(url_for("login"))
+
+    books = get_all_books()
+    book = next((b for b in books if b["id"] == book_id), None)
+
+    if not book:
+        flash("Livre introuvable.", "danger")
+        return redirect(url_for("admin"))
+
+    if request.method == "POST":
+        title = request.form.get("title", "").strip()
+        author = request.form.get("author", "").strip()
+        edition = request.form.get("edition", "").strip()
+        remarque = request.form.get("remarque", "").strip()
+        genre = request.form.get("genre", "").strip()
+        resume = request.form.get("resume", "").strip()
+
+        from database import update_book
+
+        update_book(book_id, title, author, edition, remarque, genre, resume)
+
+        flash("Livre mis à jour !", "success")
+        return redirect(url_for("admin"))
+
+    return render_template("edit_book.html", book=book)

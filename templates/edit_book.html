@@ -1,0 +1,44 @@
+<!-- templates/edit_book.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Modifier un livre</h2>
+
+    <form method="POST" action="">
+        <div class="form-group">
+            <label for="title">Titre</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ book.title }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="author">Auteur</label>
+            <input type="text" class="form-control" id="author" name="author" value="{{ book.author }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="edition">Édition</label>
+            <input type="text" class="form-control" id="edition" name="edition" value="{{ book.edition or '' }}">
+        </div>
+
+        <div class="form-group">
+            <label for="remarque">Remarque</label>
+            <input type="text" class="form-control" id="remarque" name="remarque" value="{{ book.remarque or '' }}">
+        </div>
+
+        <div class="form-group">
+            <label for="genre">Genre</label>
+            <input type="text" class="form-control" id="genre" name="genre" value="{{ book.genre or '' }}">
+        </div>
+
+        <div class="form-group">
+            <label for="resume">Résumé</label>
+            <textarea class="form-control" id="resume" name="resume" rows="4">{{ book.resume or '' }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+        <a href="{{ url_for('admin') }}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}
