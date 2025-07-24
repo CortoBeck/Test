@@ -1,9 +1,10 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from database import init_db, get_all_books, add_book, update_status
+from database import init_db, get_all_books, add_book, update_status, update_book
 from config import ADMIN_USERNAME, ADMIN_PASSWORD
 
 app = Flask(__name__)
+
 app.secret_key = os.environ.get(
     "FLASK_SECRET_KEY", "ta_clef_secrete_123"
 )  # valeur par défaut pour dev
@@ -162,13 +163,6 @@ def update_book_status(book_id):
     return redirect(url_for("admin"))
 
 
-if __name__ == "__main__":
-    from import_excel import import_excel_to_numpy_and_insert
-
-    import_excel_to_numpy_and_insert()
-    app.run(debug=True)
-
-
 @app.route("/edit/<int:book_id>", methods=["GET", "POST"])
 def edit_book(book_id):
     if not session.get("logged_in"):
@@ -190,11 +184,17 @@ def edit_book(book_id):
         genre = request.form.get("genre", "").strip()
         resume = request.form.get("resume", "").strip()
 
-        from database import update_book
-
         update_book(book_id, title, author, edition, remarque, genre, resume)
 
         flash("Livre mis à jour !", "success")
         return redirect(url_for("admin"))
 
     return render_template("edit_book.html", book=book)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+    from import_excel import import_excel_to_numpy_and_insert
+
+    import_excel_to_numpy_and_insert()
+    app.run(debug=True)
