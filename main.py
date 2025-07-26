@@ -192,9 +192,49 @@ def edit_book(book_id):
     return render_template("edit_book.html", book=book)
 
 
+@app.route("/delete", methods=["GET", "POST"])
+def delete_books():
+    if not session.get("logged_in"):
+        flash("Connecte-toi d'abord !", "warning")
+        return redirect(url_for("login"))
+
+    books = get_all_books()
+
+    if request.method == "POST":
+        selected_ids = request.form.getlist("book_ids")
+        if selected_ids:
+            return render_template(
+                "confirm_bulk_delete.html", selected_ids=selected_ids, books=books
+            )
+        else:
+            flash("Aucun livre sélectionné.", "warning")
+            return redirect(url_for("admin"))
+
+    return render_template("bulk_delete.html", books=books)
+
+
+@app.route("/confirm-delete", methods=["POST"])
+def confirm_delete_books():
+    if not session.get("logged_in"):
+        flash("Connecte-toi d'abord !", "warning")
+        return redirect(url_for("login"))
+
+    selected_ids = request.form.getlist("selected_ids")
+    if selected_ids:
+        from database import delete_book
+
+        for book_id in selected_ids:
+            delete_book(int(book_id))
+        flash(f"{len(selected_ids)} livre(s) supprimé(s).", "success")
+    else:
+        flash("Aucune sélection trouvée.", "warning")
+
+    return redirect(url_for("admin"))
+
+
 if __name__ == "__main__":
     app.run(debug=True)
-    from import_excel import import_excel_to_numpy_and_insert
-
-    import_excel_to_numpy_and_insert()
+    # from import_excel import import_excel_to_numpy_and_insert
+    ### à n'utiliser que si on a vraiment besoin de transmettre les infos de l'excel - a priori plus jamais
+    # import_excel_to_numpy_and_insert()
     app.run(debug=True)

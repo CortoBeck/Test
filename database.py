@@ -74,3 +74,11 @@ def update_book(book_id, title, author, edition, remarque, genre, resume):
     )
     conn.commit()
     conn.close()
+
+
+def delete_book(book_id):
+    conn = get_connection()
+    c = conn.cursor()
+    c.execute("DELETE FROM books WHERE id = ?", (book_id,))
+    conn.commit()
+    conn.close()

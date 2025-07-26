@@ -163,7 +163,13 @@ form .input-group button:hover {
     background-color: #ee7777;
 }
 
+.danger {
+    background-color: #990000;
+}
 
+.danger:hover {
+    background-color: #730101;
+}
 
 table {
     width: 100%;
