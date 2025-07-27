@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Supprimer des livres{% endblock %}
+
+{% block content %}
+<h2>Supprimer des livres</h2>
+
+<form method="POST" action="{{ url_for('delete_books') }}">
+    <table class="table table-bordered table-hover">
+        <thead class="table-secondary">
+            <tr>
+                <th></th>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Statut</th>
+                <th>Genre</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td><input type="checkbox" name="book_ids" value="{{ book.id }}"></td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.status }}</td>
+                <td>{{ book.genre }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-danger">Supprimer la sélection</button>
+    <a href="{{ url_for('admin') }}" class="btn btn-secondary">Annuler</a>
+</form>
+{% endblock %}

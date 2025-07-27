@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Confirmer la suppression{% endblock %}
+
+{% block content %}
+<h2>Confirmation de suppression</h2>
+
+<p>Tu es sur le point de supprimer les livres suivants :</p>
+<ul>
+    {% for book in books %}
+    {% if book.id|string in selected_ids %}
+    <li><strong>{{ book.title }}</strong> par {{ book.author }}</li>
+    {% endif %}
+    {% endfor %}
+</ul>
+
+<form method="POST" action="{{ url_for('confirm_delete_books') }}">
+    {% for book_id in selected_ids %}
+    <input type="hidden" name="selected_ids" value="{{ book_id }}">
+    {% endfor %}
+    <button type="submit" class="btn btn-danger">Oui, supprimer</button>
+    <a href="{{ url_for('admin') }}" class="btn btn-secondary">Annuler</a>
+</form>
+{% endblock %}

@@ -9,6 +9,14 @@ app.secret_key = os.environ.get(
     "FLASK_SECRET_KEY", "ta_clef_secrete_123"
 )  # valeur par défaut pour dev
 
+
+### enlever après
+import os
+###
+
+print("Chemin absolu vers books.db :", os.path.abspath("books.db"))
+print("Le fichier books.db existe-t-il ? ", os.path.exists("books.db"))
+
 init_db()
 
 # --- ROUTES ---
